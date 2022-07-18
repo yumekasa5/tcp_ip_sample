@@ -11,14 +11,14 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
      s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
      s.bind((IP_ADDRESS, PORT))
      s.listen(10)
-    
      while True:
-          socket_client, client_address = s.accept()
-          data = socket_client.recv(BUFFER_SIZE_BYTE)
-          if not data:
-            break
-          data = pickle.loads(data)
-          print(data)
-          socket_client.close()
+        socket_client, client_address = s.accept()
+        print('接続したクライアント情報:', str(client_address))
+        data = socket_client.recv(BUFFER_SIZE_BYTE)
+        if not data:
+           break
+        data = pickle.loads(data)
+        print(data)
+        socket_client.close()
 
 
