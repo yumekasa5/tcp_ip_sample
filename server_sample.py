@@ -6,6 +6,8 @@ IP_ADDRESS = '127.0.0.1'  #Ip address
 PORT = 8080              #port number
 BUFFER_SIZE_BYTE = 2048   #buffer size[byte]
 
+new_list = []
+
 #IPv4形式でソケット作成
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
      s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -18,7 +20,9 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         if not data:
            break
         data = pickle.loads(data)
+        new_list.append(data[2])
         print(data)
+        print(new_list)
         socket_client.close()
 
 
