@@ -1,5 +1,5 @@
 import socket
-from client_sample import BUFFER_SIZE_BYTE
+import pickle
 
 #local host
 IP_ADDRESS = '127.0.0.1'  #Ip address
@@ -15,7 +15,10 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
      while True:
           socket_client, client_address = s.accept()
           data = socket_client.recv(BUFFER_SIZE_BYTE)
-          print(data.decode('utf-8'))
+          if not data:
+            break
+          data = pickle.loads(data)
+          print(data)
           socket_client.close()
 
 
