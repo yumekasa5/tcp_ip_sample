@@ -1,28 +1,21 @@
 import socket
+from client_sample import BUFFER_SIZE_BYTE
 
 #local host
 IP_ADDRESS = '127.0.0.1'  #Ip address
-PORT = 49152              #port number
+PORT = 8080              #port number
+BUFFER_SIZE_BYTE = 2048   #buffer size[byte]
 
 #IPv4形式でソケット作成
-socket_server = socket.socket(socket.AF_INET)
-
-#IPアドレスとポート番号のバインド
-socket_server.bind((IP_ADDRESS, PORT))
-
-#サーバの有効化
-socket_server.listen()
-
-datasize_byte = 1024
-
-#接続・受信
-while True:
-    socket_client, address = socket_server.accept()
-
-    data = socket_client.recv(datasize_byte)
-
-    print(data.decode('utf-8'))
-
-    socket_client.close()
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+     s.bind((IP_ADDRESS, PORT))
+     s.listen(10)
+    
+     while True:
+          socket_client, client_address = s.accept()
+          data = socket_client.recv(BUFFER_SIZE_BYTE)
+          print(data.decode('utf-8'))
+          socket_client.close()
 
 
